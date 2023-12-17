@@ -1,0 +1,19 @@
+#+title: discord-emoji
+
+Let's bring Discord's emoji insertion into Emacs!
+
+* Introduction
+As someone accustomed to Discord's emoji shortcodes (i.e ~:sob:~, ~:skull:~, etc.), I've recently become tired with Emacs's ~emoji-insert~ function, which enables you to insert emojis by narrowing down predefined categories, like ~s (Smileys) > a (Affection) > b~ to insert 😍.
+While this method certainly allows you to enter emojis /quicker/ once you memorize the key sequences, figuring out how to insert new emojis can be frustrating, for emojis which could fall into multiple categories.
+For instance, the ☠️ emoji, which I use very frequently when writing prose, is accessible via ~s (Smileys) > e (Negative) > h~.
+This is mostly reasonable after looking through the category definitions, but finding it requires 1. knowing that it falls into the ~Smileys~ category (the preview for the category only displays actual smiley faces), 2. looking through all of the presented emojis to determine which subcategory it's in, and 3. selecting the target emoji with its corresponding letter.
+For certain emojis, figuring out how to insert it can take me upwards of 10 seconds, which makes emoji insertion a pain overall.
+However, I certainly can't blame the original authors for this difficulty, since coming up with concrete categories for this method of insertion is a nontrivial task.
+
+Compared to this style of input, Discord-style selection offers a nice balance between insertion speed for known emojis and discoverability for new emojis.
+Thus, I've decided to port a simple version of Discord's emoji insertion into Emacs.
+After searching the internet, I found [[https://github.com/discord/discord-api-docs/discussions/5349][this issue]] on the [[https://github.com/discord/discord-api-docs][discord-api-docs]] repository, where someone linked [[https://github.com/discord/discord-api-docs/discussions/5349][this JSON]] containing Discord's emoji mappings.
+To be safe, in case the URL goes dead, I've included the JSON source in this repository.
+* Future Plans
+Down the line, it would be interesting to extend this project to a [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Completion-in-Buffers.html][completion-at-point]] source or [[http://company-mode.github.io/][company]] backend.
+These would interrope better with the standard Emacs experience, /but/ I would personally continue to use the current input method.
