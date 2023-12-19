@@ -20,6 +20,10 @@
 ;;
 ;;; Code:
 
+(defface discord-emoji-category
+  `((default . (:inherit 'font-lock-keyword-face)))
+  "Face used to render the `completing-read' /category/ annotation.")
+
 (defun discord-emoji--load-data ()
   (let* ((script-path (or load-true-file-name buffer-file-name))
          (json-path (f-join (file-name-directory script-path) "discordEmojiMap-canary.min.json"))
@@ -35,11 +39,31 @@
     (setq discord-emoji--definitions preprocessed-defs)
     nil))
 
+(defun discord-emoji--completing-read-annotate (candidate)
+  (when-let ((candidate-width (string-width candidate))
+             (annotation-start-column 50)
+             (spaces-to-fill (- annotation-start-column candidate-width))
+             (category (alist-get 'category (alist-get candidate discord-emoji--definitions nil nil #'string-equal)))
+             (annotation-string (propertize (format "%s%s" (make-string spaces-to-fill ?\s) category)
+                                            'face
+                                            ;; see `list-faces-display'
+                                            'discord-emoji-category)))
+    annotation-string))
+
+(defun discord-emoji--completing-read ()
+  (completing-read "Insert Emoji: "
+                   (lambda (str filter-function flag)
+                     (cl-case flag
+                       (metadata
+                        `(metadata .
+                          ((annotation-function . discord-emoji--completing-read-annotate))))
+                       (t (all-completions str discord-emoji--definitions filter-function))))))
+
 (defun discord-emoji-insert ()
   (interactive)
   (unless (boundp 'discord-emoji--definitions)
     (discord-emoji--load-data))
-  (when-let* ((selection (completing-read "Insert Emoji:" discord-emoji--definitions))
+  (when-let* ((selection (discord-emoji--completing-read))
               (value (alist-get selection discord-emoji--definitions nil nil #'string-equal))
               (emoji (alist-get 'emoji value)))
     (insert emoji)))
