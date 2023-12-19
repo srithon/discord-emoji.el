@@ -2,6 +2,8 @@
 
 Let's bring Discord's emoji insertion into Emacs!
 
+[[./usage.gif][Usage]]
+
 * Introduction
 As someone accustomed to Discord's emoji shortcodes (i.e ~:sob:~, ~:skull:~, etc.), I've recently become tired with Emacs's ~emoji-insert~ function, which enables you to insert emojis by narrowing down predefined categories, like ~s (Smileys) > a (Affection) > b~ to insert 😍.
 While this method certainly allows you to enter emojis /quicker/ once you memorize the key sequences, figuring out how to insert new emojis can be frustrating, for emojis which could fall into multiple categories.
