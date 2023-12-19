@@ -27,12 +27,22 @@
          (emoji-defs (alist-get 'emojiDefinitions json))
          (parse-emoji-def (lambda (obj)
                             (map-let (primaryName surrogates category) obj
-                              (list
-                               `(primary-name . ,primaryName)
-                               `(emoji . ,surrogates)
-                               `(category . ,category)))))
+                              `(,(format "%s (%s)" primaryName surrogates)
+                                (primary-name . ,primaryName)
+                                (emoji . ,surrogates)
+                                (category . ,category)))))
          (preprocessed-defs (seq-map parse-emoji-def emoji-defs)))
-    (setq discord-emoji--definitions preprocessed-defs)))
+    (setq discord-emoji--definitions preprocessed-defs)
+    nil))
+
+(defun discord-emoji-insert ()
+  (interactive)
+  (unless (boundp 'discord-emoji--definitions)
+    (discord-emoji--load-data))
+  (when-let* ((selection (completing-read "Insert Emoji:" discord-emoji--definitions))
+              (value (alist-get selection discord-emoji--definitions nil nil #'string-equal))
+              (emoji (alist-get 'emoji value)))
+    (insert emoji)))
 
 (provide 'discord-emoji)
 ;;; discord-emoji.el ends here
