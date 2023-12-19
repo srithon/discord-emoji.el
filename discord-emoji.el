@@ -9,7 +9,7 @@
 ;; Version: 0.0.1
 ;; Keywords: multimedia
 ;; Homepage: https://github.com/sridaran/discord-emoji.el
-;; Package-Requires: ((emacs "25.1"))
+;; Package-Requires: ((emacs "26.1"))
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
