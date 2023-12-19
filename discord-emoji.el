@@ -36,7 +36,6 @@
          (parse-emoji-def (lambda (obj)
                             (map-let (primaryName surrogates category) obj
                               `(,(format "%s (%s)" primaryName surrogates)
-                                (primary-name . ,primaryName)
                                 (emoji . ,surrogates)
                                 (category . ,category)))))
          (preprocessed-defs (seq-map parse-emoji-def emoji-defs)))
