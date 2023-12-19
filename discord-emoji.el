@@ -15,8 +15,9 @@
 ;;
 ;;; Commentary:
 ;;
-;; The main function, `discord-emoji-insert', inserts an emoji into the
-;; document.
+;; The main function, `discord-emoji-insert', prompts the user using
+;; `completing-read', allowing them to select Emojis using Discord's shortcodes,
+;; and inserts the selected emoji into the document.
 ;;
 ;;; Code:
 
