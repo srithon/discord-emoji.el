@@ -45,7 +45,7 @@
 
 (defun discord-emoji--completing-read-annotate (candidate)
   (when-let ((candidate-width (string-width candidate))
-             (annotation-start-column 50)
+             (annotation-start-column 60)
              (spaces-to-fill (- annotation-start-column candidate-width))
              (category (alist-get 'category (alist-get candidate discord-emoji--definitions nil nil #'string-equal)))
              (annotation-string (propertize (format "%s%s" (make-string spaces-to-fill ?\s) category)
