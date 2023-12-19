@@ -4,7 +4,7 @@ Let's bring Discord's emoji insertion into Emacs!
 As someone accustomed to Discord's emoji shortcodes, I've become tired with Emacs's existing emoji insertion methods, most of which use the verbose Emoji names defined in the Unicode spec, like ~face with tears of joy~ instead of Discord's much simpler ~:joy:~ (😂).
 Also, certain emojis have completely different names under Discord, like ~:sob:~ compared to ~loudly crying face~ (😭); overall, having to relearn the emoji names to insert them in Emacs is not ideal.
 
-[[./usage.gif][Usage]]
+[[./usage.gif]]
 
 * Installation
 This package is not yet on MELPA, so using ~straight.el~ you will need something like this:
