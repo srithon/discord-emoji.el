@@ -31,7 +31,7 @@
 
 (defun discord-emoji--load-data ()
   (let* ((script-path discord-emoji--repository-path)
-         (json-path (f-join (file-name-directory script-path) "discordEmojiMap-canary.min.json"))
+         (json-path (f-join (file-name-directory script-path) "emojis.json"))
          (json (json-read-file json-path))
          (emoji-defs (alist-get 'emojiDefinitions json))
          (parse-emoji-def (lambda (obj)
