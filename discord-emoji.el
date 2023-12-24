@@ -26,7 +26,7 @@
   "Face used to render the `completing-read' /category/ annotation.")
 
 (defvar discord-emoji--repository-path
-  (or load-true-file-name buffer-file-name)
+  (or load-file-name buffer-file-name)
   "Base path for the repository, used to find the JSON file path.")
 
 (defun discord-emoji--load-data ()
