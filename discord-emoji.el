@@ -35,7 +35,9 @@
          (json (json-read-file json-path))
          (emoji-defs (alist-get 'emojiDefinitions json))
          (parse-emoji-def (lambda (obj)
-                            (map-let (primaryName surrogates category) obj
+                            (let ((primaryName (alist-get 'primaryName obj))
+                                  (surrogates (alist-get 'surrogates obj))
+                                  (category (alist-get 'category obj)))
                               `(,(format "%s (%s)" primaryName surrogates)
                                 (emoji . ,surrogates)
                                 (category . ,category)))))
