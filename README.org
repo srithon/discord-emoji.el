@@ -7,10 +7,11 @@ Also, certain emojis have completely different names under Discord, like ~:sob:~
 [[./usage.gif]]
 
 * Installation
-This package is not yet on MELPA, so using ~straight.el~ you will need something like this:
+This package is not yet on MELPA, so using ~straight.el~ you will need to include a recipe:
 #+begin_src emacs-lisp
 (package! discord-emoji
-  :recipe (:host github :repo "srithon/discord-emoji.el"))
+  :recipe (:host github :repo "srithon/discord-emoji.el"
+           :files ("discord-emoji.el" "emojis.json")))
 #+end_src
 * Configuration
 To use the package, simply bind a key combination to ~discord-emoji-insert~.
