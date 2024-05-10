@@ -25,6 +25,14 @@
   `((default . (:inherit 'font-lock-keyword-face)))
   "Face used to render the `completing-read' /category/ annotation.")
 
+(defcustom discord-emoji-custom-aliases
+  nil
+  "Customizable mapping for shortcode aliases. Keys should be
+ custom alias strings, and values should be the target shortcode."
+  :type '(alist
+          :key-type string
+          :value-type string))
+
 (defvar discord-emoji--repository-path
   (or load-file-name buffer-file-name)
   "Base path for the repository, used to find the JSON file path.")
@@ -47,7 +55,7 @@ in `discord-emoji-insert'.")
                             (let ((primaryName (alist-get 'primaryName obj))
                                   (surrogates (alist-get 'surrogates obj))
                                   (category (alist-get 'category obj)))
-                              `(,(format "%s (%s)" primaryName surrogates)
+                              `(,(format "%s" primaryName)
                                 (emoji . ,surrogates)
                                 (category . ,category)))))
          (preprocessed-defs (seq-map parse-emoji-def emoji-defs)))
@@ -55,14 +63,17 @@ in `discord-emoji-insert'.")
     nil))
 
 (defun discord-emoji--completing-read-annotate (candidate)
-  (when-let ((candidate-width (string-width candidate))
-             (annotation-start-column discord-emoji--annotation-start-column)
-             (spaces-to-fill (- annotation-start-column candidate-width))
-             (category (alist-get 'category (alist-get candidate discord-emoji--definitions nil nil #'string-equal)))
-             (annotation-string (propertize (format "%s%s" (make-string spaces-to-fill ?\s) category)
-                                            'face
-                                            ;; see `list-faces-display'
-                                            'discord-emoji-category)))
+  ;; add 4 because of the added emoji text
+  (when-let* ((candidate-width (+ (string-width candidate) 4))
+              (annotation-start-column discord-emoji--annotation-start-column)
+              (spaces-to-fill (- annotation-start-column candidate-width))
+              (candidate-metadata (alist-get candidate discord-emoji--definitions nil nil #'string-equal))
+              (category (alist-get 'category candidate-metadata))
+              (emoji (alist-get 'emoji candidate-metadata))
+              (annotation-string (propertize (format " (%s)%s%s" emoji (make-string spaces-to-fill ?\s) category)
+                                             'face
+                                             ;; see `list-faces-display'
+                                             'discord-emoji-category)))
     annotation-string))
 
 (defun discord-emoji--completing-read ()
@@ -72,7 +83,11 @@ in `discord-emoji-insert'.")
                        (metadata
                         `(metadata .
                           ((annotation-function . discord-emoji--completing-read-annotate))))
-                       (t (all-completions str discord-emoji--definitions filter-function))))))
+                       (t
+                        (let ((alias-results (all-completions str discord-emoji-custom-aliases filter-function)))
+                          (let ((alias-values
+                                 (--map (alist-get it discord-emoji-custom-aliases nil nil #'string-equal) alias-results)))
+                            (append alias-values (all-completions str discord-emoji--definitions filter-function)))))))))
 
 (defun discord-emoji-insert ()
   (interactive)
