@@ -29,6 +29,11 @@
   (or load-file-name buffer-file-name)
   "Base path for the repository, used to find the JSON file path.")
 
+(defvar discord-emoji--annotation-start-column
+  60
+  "Start column for annotations for the `completing-read' interface
+in `discord-emoji-insert'.")
+
 (defun discord-emoji--load-data ()
   (let* ((script-path discord-emoji--repository-path)
          (json-path (f-join (file-name-directory script-path) "emojis.json"))
@@ -47,7 +52,7 @@
 
 (defun discord-emoji--completing-read-annotate (candidate)
   (when-let ((candidate-width (string-width candidate))
-             (annotation-start-column 60)
+             (annotation-start-column discord-emoji--annotation-start-column)
              (spaces-to-fill (- annotation-start-column candidate-width))
              (category (alist-get 'category (alist-get candidate discord-emoji--definitions nil nil #'string-equal)))
              (annotation-string (propertize (format "%s%s" (make-string spaces-to-fill ?\s) category)
