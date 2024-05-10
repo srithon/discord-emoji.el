@@ -29,6 +29,10 @@
   (or load-file-name buffer-file-name)
   "Base path for the repository, used to find the JSON file path.")
 
+(defvar discord-emoji--definitions
+  nil
+  "List of mappings from emoji shortcodes to raw characters and metadata.")
+
 (defvar discord-emoji--annotation-start-column
   60
   "Start column for annotations for the `completing-read' interface
