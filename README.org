@@ -24,8 +24,20 @@ I'm using Doom Emacs (with Evil Mode), so my configuration looks like this:
         :i "M-e"
         #'discord-emoji-insert))
 #+end_src
+* Configuration
+** Custom Shortcode Aliases
+The main configuration offered is the ~discord-emoji-custom-aliases~ variable, which allows you to define your own aliases for Discord's emoji shortcodes.
+Here's an example definition, which lets you search for each ~cdr~ by typing each ~car~.
+#+begin_src emacs-lisp
+(setq discord-emoji-custom-aliases
+      '(("yikes" . "face_with_spiral_eyes")
+        ("frazzled" . "confounded")
+        ("huh" . "face_with_raised_eyebrow")))
+#+end_src
 
-Also, you can configure the ~discord-emoji-category~ face to change how the category annotation is displayed.
+[[./aliases_demo.gif]]
+** Customize Faces
+You can also configure the ~discord-emoji-category~ face to change how the category annotation is displayed.
 * Implementation Details
 After searching the internet, I found [[https://github.com/discord/discord-api-docs/discussions/5349][this issue]] on the [[https://github.com/discord/discord-api-docs][discord-api-docs]] repository, where someone linked [[https://github.com/discord/discord-api-docs/discussions/5349][this JSON]] containing Discord's emoji mappings.
 To be safe, in case the URL goes dead, I've included the JSON source in this repository.
