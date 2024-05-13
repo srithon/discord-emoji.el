@@ -86,7 +86,8 @@ in `discord-emoji-insert'.")
                        (t
                         (let ((alias-results (all-completions str discord-emoji-custom-aliases filter-function)))
                           (let ((alias-values
-                                 (--map (alist-get it discord-emoji-custom-aliases nil nil #'string-equal) alias-results)))
+                                 (seq-map (lambda (alias) (alist-get alias discord-emoji-custom-aliases nil nil #'string-equal))
+                                          alias-results)))
                             (append alias-values (all-completions str discord-emoji--definitions filter-function)))))))))
 
 (defun discord-emoji-insert ()
