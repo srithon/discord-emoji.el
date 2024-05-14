@@ -92,7 +92,8 @@ in `discord-emoji-insert'.")
 
 (defun discord-emoji-insert ()
   (interactive)
-  (unless (boundp 'discord-emoji--definitions)
+  ;; if it's nil, then load the data
+  (unless discord-emoji--definitions
     (discord-emoji--load-data))
   (when-let* ((selection (discord-emoji--completing-read))
               (value (alist-get selection discord-emoji--definitions nil nil #'string-equal))
